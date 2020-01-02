@@ -1,15 +1,56 @@
 import pygame
 import pygame.freetype
 
-def main():
-    pygame.init()
-    res = (1440, 740)
-    screen = pygame.display.set_mode(res)
-    image = pygame.image.load("shuffle.png")
-    my_font = pygame.freetype.Font("NotoSans-Regular.ttf", 24)
-    yellow = (255,255,0)
-    white = (255,255,255)
 
+pygame.init()
+res = (1440, 740)
+screen = pygame.display.set_mode(res)
+image = pygame.image.load("shuffle.png")
+my_font = pygame.freetype.Font("NotoSans-Regular.ttf", 24)
+yellow = (255,255,0)
+white = (255,255,255)
+
+def lvl1():
+    green = (0, 200, 0)
+    x = 260
+    y = 60
+    n = 0
+    screen.fill((0,0,20))
+    
+    while(True):
+        for event in pygame.event.get():
+            if(event.type == pygame.QUIT):
+                exit()
+        #desenha as cartas
+        if (n <12):
+            x = x + 160
+            pygame.draw.rect(screen, green, (x, y, 120, 180), 0)
+            n = n + 1
+
+        if (n ==4 or n == 8):
+            y = y + 220
+            x = 420
+            n = n + 1
+            pygame.draw.rect(screen, green, (x, y, 120, 180), 0)
+        #desenha botão exit
+        pygame.draw.rect(screen, yellow, (50,650,140,30), 2)
+        my_font.render_to(screen, (100,655), "Exit", yellow)
+        pos = pygame.mouse.get_pos()
+        #muda as cores de amarelo para branco
+        if(420<pos[0]<420+120 and 60<pos[1]<60+180):
+            pygame.draw.rect(screen, white, (420,60,120,180), 0)
+        
+        if(50<pos[0]<50+140 and 650<pos[1]<650+30):
+            pygame.draw.rect(screen, white, (50,650,140,30), 2)
+            my_font.render_to(screen, (100,655), "Exit", white)
+        
+        pygame.display.flip()
+        click = pygame.mouse.get_pressed()
+        #voltar ao menu
+        if(50<pos[0]<50+140 and 650<pos[1]<650+30 and click[0]):
+            main()
+
+def main():
     while(True):
         for event in pygame.event.get():
             if(event.type == pygame.QUIT):
@@ -29,7 +70,7 @@ def main():
         my_font.render_to(screen, (700,370+85), "6x5", yellow)
         my_font.render_to(screen, (700,370+125), "6x6", yellow)
         my_font.render_to(screen, (700,370+185), "Exit", yellow)
-        #muda as cores do menu de amarelo para branco
+        #muda as cores do menu de amarelo para branco 
         pos = pygame.mouse.get_pos()
         if(650<pos[0]<650+140 and 370-40<pos[1]<370-40+30):
             pygame.draw.rect(screen, white, (650,370-40,140,30), 2)
@@ -54,9 +95,7 @@ def main():
         click = pygame.mouse.get_pressed()
         if(650<pos[0]<650+140 and 370+180<pos[1]<370+180+30 and click[0]):
             exit()
-        #def lvl1():
-            #screen.fill(0,20,20)
-
-        #if(650<pos[0]<650+140 and 370-40<pos[1]<370-40+30 and click[0]):
-            #lvl1()
+        #Nivel 1
+        if(650<pos[0]<650+140 and 370-40<pos[1]<370-40+30 and click[0]):
+            lvl1()
 main()
